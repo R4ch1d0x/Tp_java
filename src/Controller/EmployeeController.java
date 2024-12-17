@@ -55,9 +55,6 @@ public class EmployeeController {
 
         employeImpl.update(employe,id);
 
-
-
-
     }
     public void afficherEmploye() {
         EmployeeDAOImpl employeImpl = new EmployeeDAOImpl();

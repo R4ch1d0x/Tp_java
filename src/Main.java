@@ -1,15 +1,25 @@
 import Controller.EmployeeController;
+import Controller.HolidayController;
+import DAO.CongeDAOImpl;
 import DAO.EmployeeDAOImpl;
 import Model.EmployeeModel;
+import Model.HolidayModel;
 import View.EmployeeView;
+import View.HolidayView;
 
 public class Main {
     public static void main(String[] args) {
 
-        EmployeeView view = new EmployeeView();
-        EmployeeDAOImpl dao = new EmployeeDAOImpl();
-        EmployeeModel model = new EmployeeModel(dao);
+        EmployeeView Emplview = new EmployeeView();
+        EmployeeDAOImpl Empldao = new EmployeeDAOImpl();
+        EmployeeModel Emplmodel = new EmployeeModel(Empldao);
 
-        new EmployeeController(model,view);
+        HolidayView HolidayView = new HolidayView();
+        CongeDAOImpl CongeDao = new CongeDAOImpl();
+        HolidayModel HolidayModel = new HolidayModel(CongeDao,Empldao);
+
+        HolidayController controllerHoliday = new HolidayController(HolidayView,HolidayModel);
+
+        new EmployeeController(Emplmodel,Emplview);
     }
 }

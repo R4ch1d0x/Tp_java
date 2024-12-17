@@ -7,6 +7,7 @@ public class Employee {
     private Poste poste;
     private int id;
 
+    public static int solde = 25;
 
     public Employee(int id,String Nom, String Prenom, String Email, String Tele, Double Salaire,Role role,Poste poste){
         this.id = id;
@@ -81,14 +82,14 @@ public class Employee {
     }
 
     public enum Poste{
-        INGENIEUR_ETUDE_ET_DEVELOPPEMENT,
-        TEAM_LEADER,
+        Ingenieur_Etude_et_Developpement,
+        Team_Leader,
         Pilote
     }
 
     public enum Role{
         Admin,
-        EMPLOYEE
+        Employee
     }
 
     public int getId() {

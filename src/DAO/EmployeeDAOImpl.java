@@ -13,7 +13,7 @@ import Model.Employee;
 import Model.Employee.Poste;
 
 
-public class EmployeeDAOImpl implements EmployeeDAOI {
+public class EmployeeDAOImpl implements GenericDAOI<Employee> {
     private Connection conn;
 
     public EmployeeDAOImpl() {
@@ -41,7 +41,7 @@ public class EmployeeDAOImpl implements EmployeeDAOI {
 
         }
     }
-    @Override
+
     public Employee findById(int employeId) {
         String query = "SELECT * FROM employee WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -91,7 +91,6 @@ public class EmployeeDAOImpl implements EmployeeDAOI {
     }
 
 
-
     @Override
     public void update(Employee E, int id) {
         String query = "UPDATE Employee SET nom = ?, prenom = ?, email = ?, telephone = ?, salaire = ?, role = ?, poste = ? WHERE id = ?";
@@ -125,14 +124,42 @@ public class EmployeeDAOImpl implements EmployeeDAOI {
         }
     }
 
-    @Override
+
     public List<Employee.Role> findAllRoles() {
         return Arrays.asList(Employee.Role.values());
     }
 
-    @Override
+
     public List<Poste> findAllPostes() {
         return Arrays.asList(Poste.values());
     }
 
+    public boolean is_solde_enough(int id, int days) {
+        int dayCheck = 0;
+        String query = "SELECT solde FROM employee WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    dayCheck = rs.getInt("solde");
+                    return dayCheck >= days;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public void updateSolde(int id, int days) {
+        String query = "UPDATE employee SET solde = solde - ? where id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, days);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise a jour de solde de l'employe !!!!");
+        }
+    }
 }
