@@ -12,6 +12,8 @@ import java.util.List;
 import Model.Employee;
 import Model.Employee.Poste;
 
+import javax.swing.*;
+
 
 public class EmployeeDAOImpl implements GenericDAOI<Employee> {
     private Connection conn;
@@ -148,6 +150,8 @@ public class EmployeeDAOImpl implements GenericDAOI<Employee> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        JOptionPane.showMessageDialog(null, "Solde Invalid!", "Error!", JOptionPane.INFORMATION_MESSAGE);
+
         return false;
     }
 

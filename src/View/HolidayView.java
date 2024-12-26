@@ -8,44 +8,52 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 
-public class HolidayView extends JFrame{
+public class HolidayView extends JPanel{
     private JPanel mainPanel, topPanel, centerPanel,bottomPanel,employeePanel;
     private JTabbedPane switchPanels;
 
     private JLabel lblNom, lblType, lblDate_fin,lblDate_debut;
-    private JTextField Date_fin, Date_debut,id_empl;
+    private JTextField txtDate_fin, txtDate_debut,txtid_empl;
 
     public JTable congeTable;
     private JComboBox<Holiday.Types> cbTypes;
 
-    public JButton ajouterButton = new JButton("Ajouter");;
-    public JButton modifierButton = new JButton("Modifier");;
-    public JButton supprimerButton = new JButton("Supprimer");;
+    public JButton ajouterButton = new JButton("Ajouter");
+    public JButton modifierButton = new JButton("Modifier");
+    public JButton supprimerButton = new JButton("Supprimer");
+    public JButton afficherButton = new JButton("Afficher");;
+
 
     public HolidayView() {
-        setSize(700, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setSize(800, 600);
+        setLayout(new BorderLayout());
+
 
         mainPanel = new JPanel(new BorderLayout());
-        topPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        topPanel = new JPanel(new GridLayout(7, 2, 10, 10));
         centerPanel = new JPanel(new BorderLayout());
         bottomPanel = new JPanel(new GridLayout(1, 4, 10, 10));
 
         lblNom = new JLabel("id de l'employe:");
-        id_empl = new JTextField();
+        txtid_empl = new JTextField();
+
         lblType = new JLabel("Type:");
         cbTypes = new JComboBox<>(Holiday.Types.values());
 
         lblDate_debut = new JLabel("Date de debut:");
-        Date_debut = new JTextField();
+        txtDate_debut = new JTextField();
+
         lblDate_fin = new JLabel("Date de fin:");
-        Date_fin = new JTextField();
+        txtDate_fin = new JTextField();
 
         topPanel.add(lblNom);
+        topPanel.add(txtid_empl);
         topPanel.add(lblType);
+        topPanel.add(cbTypes);
         topPanel.add(lblDate_debut);
+        topPanel.add(txtDate_debut);
         topPanel.add(lblDate_fin);
+        topPanel.add(txtDate_fin);
 
 
         congeTable = new JTable(new DefaultTableModel(new Object[]{"id","id de Employe", "Date de debut", "Date de fin", "Type"},0));
@@ -56,28 +64,24 @@ public class HolidayView extends JFrame{
         bottomPanel.add(ajouterButton);
         bottomPanel.add(modifierButton);
         bottomPanel.add(supprimerButton);
+        bottomPanel.add(afficherButton);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        employeePanel = new JPanel();
-        switchPanels = new JTabbedPane();
-        switchPanels.add("Employees", employeePanel);
-        switchPanels.add("Holidays", mainPanel);
 
         add(mainPanel);
-        setVisible(true);
+        //setVisible(true);
     }
 
     public String getDate_debut() {
-        return Date_debut.getText();
+        return txtDate_debut.getText();
     }
     public String getDate_fin() {
-        return Date_fin.getText();
+        return txtDate_fin.getText();
     }
     public int getId_empl() {
-        return Integer.parseInt(id_empl.getText());
+        return Integer.parseInt(txtid_empl.getText());
     }
     public Holiday.Types getTypes() {
         return (Holiday.Types) cbTypes.getSelectedItem();

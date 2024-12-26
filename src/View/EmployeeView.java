@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class EmployeeView extends JFrame {
+public class EmployeeView extends JPanel {
     private JPanel mainPanel, topPanel, centerPanel, bottomPanel;
     private JLabel lblNom, lblPrenom, lblEmail, lblTelephone, lblSalaire, lblPoste, lblRole;
 
@@ -21,10 +21,8 @@ public class EmployeeView extends JFrame {
 
     public EmployeeView() {
 
-        setTitle("Gestion des Employés");
         setSize(800, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         setLayout(new BorderLayout());
 
         mainPanel = new JPanel(new BorderLayout());
@@ -71,7 +69,7 @@ public class EmployeeView extends JFrame {
         topPanel.add(cbPoste);
 
 
-        employeeTable = new JTable(new DefaultTableModel(new Object[]{"ID", "Nom", "Prénom", "Email", "Téléphone", "Salaire", "Poste", "Rôle"},0));
+        employeeTable = new JTable(new DefaultTableModel(new Object[]{"ID", "Nom", "Prénom", "Email", "Téléphone", "Salaire", "Poste", "Rôle","solde"},0));
         JScrollPane scrollPane = new JScrollPane(employeeTable);
 
 
@@ -87,7 +85,7 @@ public class EmployeeView extends JFrame {
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-        setVisible(true);
+        //setVisible(true);
 
     }
 
@@ -119,6 +117,7 @@ public class EmployeeView extends JFrame {
     public double getSalaire() {
         return Double.parseDouble(salaireField.getText());
     }
+
     public Employee.Role getRole() {
         return (Employee.Role) cbrole.getSelectedItem();
     }

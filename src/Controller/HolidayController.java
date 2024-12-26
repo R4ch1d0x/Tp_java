@@ -2,7 +2,9 @@ package Controller;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import DAO.EmployeeDAOImpl;
 import DAO.CongeDAOImpl;
@@ -23,6 +25,8 @@ public class HolidayController {
         this.view.ajouterButton.addActionListener(e->ajouterConge());
         this.view.supprimerButton.addActionListener(e->supprimerConge());
         this.view.modifierButton.addActionListener(e->modifierConge());
+        this.view.afficherButton.addActionListener(e->afficherConge());
+
     }
 
     public void ajouterConge(){
@@ -38,7 +42,7 @@ public class HolidayController {
         if(ajoutReussi){
             System.out.println("Conge a ete ajouter mzyan");
         } else {
-            System.out.println("mamzyanch");
+            System.out.println("hna controller makhdamch");
         }
     }
 
@@ -63,16 +67,36 @@ public class HolidayController {
         int selectedRow = view.congeTable.getSelectedRow();
         if (selectedRow == -1) {
 
-            JOptionPane.showMessageDialog(null, "Veuillez sélectionner un employé à supprimer !");
+            JOptionPane.showMessageDialog(null, "Veuillez sélectionner un congé à supprimer !");
 
         }
         int id =view.getId(view.congeTable);
         CongeDAOImpl congeImpl = new CongeDAOImpl();
 
-        int confirmation = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet employé ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+        int confirmation = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cet congé ?", "Confirmation", JOptionPane.YES_NO_OPTION);
         if (confirmation == JOptionPane.YES_OPTION) {
             congeImpl.delete(id);
 
         }
+    }
+
+    public void afficherConge(){
+        CongeDAOImpl congeDAO = new CongeDAOImpl();
+        List<Holiday> conges = congeDAO.findAll();
+
+        DefaultTableModel model = (DefaultTableModel) view.congeTable.getModel();
+        model.setRowCount(0);
+
+        for (Holiday cong : conges) {
+            System.out.println("Conge " + cong.getId_empl());
+            model.addRow(new Object[]{
+                    cong.getId(),
+                    cong.getId_empl(),
+                    cong.getDate_debut(),
+                    cong.getDate_fin(),
+                    cong.getTypes(),
+            });
+        }
+
     }
 }

@@ -5,6 +5,7 @@ import DAO.EmployeeDAOImpl;
 import Model.EmployeeModel;
 import Model.HolidayModel;
 import View.EmployeeView;
+import View.GlobalView;
 import View.HolidayView;
 
 public class Main {
@@ -18,8 +19,9 @@ public class Main {
         CongeDAOImpl CongeDao = new CongeDAOImpl();
         HolidayModel HolidayModel = new HolidayModel(CongeDao,Empldao);
 
+        GlobalView view = new GlobalView(Emplview, HolidayView);
         HolidayController controllerHoliday = new HolidayController(HolidayView,HolidayModel);
 
-        new EmployeeController(Emplmodel,Emplview);
+        new EmployeeController(Emplview, Emplmodel);
     }
 }

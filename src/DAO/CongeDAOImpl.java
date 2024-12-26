@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Holiday;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class CongeDAOImpl implements GenericDAOI<Holiday> {
     @Override
     public List<Holiday> findAll() {
         List<Holiday> conge = new ArrayList<>();
-        String query = "SELECT * FROM conge";
+        String query = "SELECT * FROM conge INNER JOIN employee ON conge.id_empl = employee.id";
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -49,9 +50,9 @@ public class CongeDAOImpl implements GenericDAOI<Holiday> {
 
             stmt.executeUpdate();
 
-            System.out.println("Congé ajouté avec succès !");
+            JOptionPane.showMessageDialog(null, "Congé ajouté avec succès !");
         } catch (SQLException e) {
-            System.out.println("Erreur lors de l'ajout de Congé !");
+            JOptionPane.showMessageDialog(null,"erreur dans l'ajout d'un holiday","erreur",JOptionPane.ERROR_MESSAGE);
             //e.printStackTrace();
 
         }
@@ -69,7 +70,7 @@ public class CongeDAOImpl implements GenericDAOI<Holiday> {
             stmt.setInt(6, id_empl);
             stmt.executeUpdate();
 
-            System.out.println("Conge modifier avec succès !");
+            JOptionPane.showMessageDialog(null,"Holiday est modifier aavec succe!!","message",JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modefication de Conge !!!!!");
         }
@@ -81,8 +82,8 @@ public class CongeDAOImpl implements GenericDAOI<Holiday> {
          try (PreparedStatement stmt = conn.prepareStatement(query)) {
         stmt.setInt(1, id_empl);
         stmt.executeUpdate();
-        System.out.println("conge supprimé avec succès !");
-    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null,"Holiday est supprimer avec succe !!","message",JOptionPane.INFORMATION_MESSAGE);;
+        } catch (SQLException e) {
         System.out.println("Erreur lors de la suppression de conge !!!!");
       }
     }

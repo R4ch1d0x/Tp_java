@@ -7,7 +7,7 @@ public class Employee {
     private Poste poste;
     private int id;
 
-    public static int solde = 25;
+    private  int solde = 25;
 
     public Employee(int id,String Nom, String Prenom, String Email, String Tele, Double Salaire,Role role,Poste poste){
         this.id = id;
@@ -99,5 +99,10 @@ public class Employee {
         this.id = id;
     }
 
-
+    public int getSolde() {
+        return solde;
+    }
+    public void setSolde(int solde) {
+        this.solde = solde;
+    }
 }

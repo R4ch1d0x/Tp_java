@@ -12,7 +12,7 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeModel model;
     private final EmployeeView view;
-    public EmployeeController(EmployeeModel model, EmployeeView view){
+    public EmployeeController(EmployeeView view,EmployeeModel model){
         this.model = model;
         this.view = view;
         this.view.ajouterButton.addActionListener(e->ajouterEmployee());
@@ -72,7 +72,8 @@ public class EmployeeController {
                     emp.getTele(),
                     emp.getSalaire(),
                     emp.getRole(),
-                    emp.getPoste()
+                    emp.getPoste(),
+                    emp.getSolde()
             });
         }
     }
