@@ -6,6 +6,7 @@ import Model.EmployeeModel;
 import View.EmployeeView;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -91,6 +92,31 @@ public class EmployeeController {
         if (confirmation == JOptionPane.YES_OPTION) {
             employeImpl.delete(id);
 
+        }
+    }
+
+    public void importerEmployees() {
+        String filePath = view.showFileChooser("Importer des employés");
+        if (filePath != null) {
+            boolean importationReussie = model.importerEmployees(filePath);
+            if (importationReussie) {
+                JOptionPane.showMessageDialog(null, "Les employés ont été importés avec succès :)");
+                afficherEmploye();
+            } else {
+                JOptionPane.showMessageDialog(null,"Échec de l'importation des employés :(");
+            }
+        }
+    }
+
+    public void exporterEmployees() {
+        String filePath = view.showFileChooser("Exporter des employés");
+        if (filePath != null) {
+            boolean exportationReussie = model.exporterEmployees(filePath);
+            if (exportationReussie) {
+                JOptionPane.showMessageDialog(null,"Les employés ont été exportés avec succès :)");
+            } else {
+                JOptionPane.showMessageDialog(null,"Échec de l'exportation des employés :(");
+            }
         }
     }
 }

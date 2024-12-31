@@ -1,5 +1,6 @@
 package DAO;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import Model.Employee.Poste;
 import javax.swing.*;
 
 
-public class EmployeeDAOImpl implements GenericDAOI<Employee> {
+public class EmployeeDAOImpl implements GenericDAOI<Employee>, DataImportExport<Employee> {
     private Connection conn;
 
     public EmployeeDAOImpl() {
@@ -166,4 +167,63 @@ public class EmployeeDAOImpl implements GenericDAOI<Employee> {
             System.out.println("Erreur lors de la mise a jour de solde de l'employe !!!!");
         }
     }
+
+    @Override
+    public void importData(String filePath) throws IOException {
+        String Query = "INSERT INTO Employee(nom, prenom, email, telephone, salaire, role, poste) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath));
+             PreparedStatement stmt = conn.prepareStatement(Query)) {
+            String line = reader.readLine();
+            while ((line = reader.readLine()) != null){
+                String[] data = line.split(",");
+                if(data.length == 5){
+                    stmt.setString(1,data[0].trim());
+                    stmt.setString(2,data[1].trim());
+                    stmt.setString(3,data[2].trim());
+                    stmt.setString(4,data[3].trim());
+                    stmt.setString(5,data[4].trim());
+                    stmt.setString(6,data[5].trim());
+                    stmt.setString(7,data[6].trim());
+                    stmt.addBatch();
+                }
+            }
+            stmt.executeBatch();
+            System.out.println("Imported successfuly !");
+        } catch (IOException | SQLException e) {
+            System.out.println("Erreur lors de l'ajout de l'employé !");
+            //e.printStackTrace();
+
+        }
+    }
+
+    @Override
+    public void exportData(String fileName, List<Employee> data) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName)))
+        {
+            writer.write("First Name, Last Name, Email, Phone, Role, Poste, Salary");
+            writer.newLine();
+
+            for(Employee emp: data){
+                String line = String.format("%s, %s, %s, %s, %s, %s, %.2f",
+                        emp.getPrenom(),
+                        emp.getNom(),
+                        emp.getEmail(),
+                        emp.getTele(),
+                        emp.getRole(),
+                        emp.getPoste(),
+                        emp.getSalaire()
+                        );
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("Les employés ont été exportés avec succès !");
+        }
+    }
+
+
+
+
+
+
+
 }

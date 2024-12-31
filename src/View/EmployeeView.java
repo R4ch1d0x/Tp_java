@@ -2,9 +2,12 @@ package View;
 
 import Model.Employee;
 
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.io.File;
+import java.util.List;
 
 public class EmployeeView extends JPanel {
     private JPanel mainPanel, topPanel, centerPanel, bottomPanel;
@@ -14,10 +17,13 @@ public class EmployeeView extends JPanel {
     private JComboBox<Employee.Role> cbrole;
     private JComboBox<Employee.Poste> cbPoste;
     public JTable employeeTable;
-    public JButton ajouterButton = new JButton("Ajouter");;
-    public JButton modifierButton = new JButton("Modifier");;
-    public JButton supprimerButton = new JButton("Supprimer");;
-    public JButton afficherButton = new JButton("Afficher");;
+    public JButton ajouterButton = new JButton("Ajouter");
+    public JButton modifierButton = new JButton("Modifier");
+    public JButton supprimerButton = new JButton("Supprimer");
+    public JButton afficherButton = new JButton("Afficher");
+    public JButton importButton = new JButton("Importer");
+    public JButton exportButton = new JButton("Exporter");
+
 
     public EmployeeView() {
 
@@ -79,10 +85,33 @@ public class EmployeeView extends JPanel {
         bottomPanel.add(modifierButton);
         bottomPanel.add(supprimerButton);
         bottomPanel.add(afficherButton);
+        bottomPanel.add(importButton);
+        bottomPanel.add(exportButton);
+
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+
+        importButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file for import: " + selectedFile.getAbsolutePath());
+                // Trigger import logic here (to be connected to controller)
+            }});
+
+        exportButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                System.out.println("Selected file for export: " + selectedFile.getAbsolutePath());
+            }
+        });
+
 
         add(mainPanel);
         //setVisible(true);
@@ -123,6 +152,18 @@ public class EmployeeView extends JPanel {
     }
     public Employee.Poste getPoste() {
         return (Employee.Poste) cbPoste.getSelectedItem();
+    }
+
+    public String showFileChooser(String title) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle(title);
+        int userSelection = fileChooser.showOpenDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            return selectedFile.getAbsolutePath();
+        }
+        return null;
     }
 
 
